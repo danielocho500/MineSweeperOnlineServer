@@ -18,6 +18,15 @@ const selectSquare = (completeMatch, actualMatch, squareX, squareY, height, widt
 
         if(completeMatch[squareY][squareX].value != 0){
             actualMatch[squareY][squareX] = completeMatch[squareY][squareX]
+
+            if(isWin(actualMatch, completeMatch, height, width)){
+                return{
+                    actualMatch,
+                    win: true,
+                    lose: false
+                }
+            }
+
             return{
                 actualMatch,
                 win: false,
@@ -152,34 +161,24 @@ const squareRecur = (completeMatch, actualMatch, y, x, height, width) => {
     return actualMatch
 }
 
-
-
-const squareRecurBottom = (completeMatch, actualMatch, y, x, height, width) => {
-
-    actualMatch[y][x] = completeMatch[y][x]
-
-    if(y<height){
-        if(completeMatch[y+1][x].value == 0 && actualMatch[y+1][x].value == false && !checked.isCheked(y+1,x)){
-            checked.add(y+1,x);
-            actualMatch = squareRecurBottom(completeMatch, actualMatch, y+1, x, height, width)
-        }
-        else
-            actualMatch[y+1][x] = completeMatch[y+1][x]
-
-        if(x>0){
-            if(completeMatch[y+1][x-1].value == 0 && actualMatch[y+1][x-1].value == false && !actualMatch[y+1][x-1].checked)
-                actualMatch = squareRecur(completeMatch, actualMatch, y+1, x-1, height, width)
-            else
-                actualMatch[y+1][x-1] = completeMatch[y+1][x-1]
-        }
-
-        if(x<width){
-            if(completeMatch[y+1][x+1].value == 0 && actualMatch[y+1][x+1].value == false && !actualMatch[y+1][x+1].checked)
-                actualMatch = squareRecur(completeMatch, actualMatch, y+1, x+1, height, width)
-            else
-                actualMatch[y+1][x+1] = completeMatch[y+1][x+1]
+const isWin = (actualMatch, completeMatch, height, width) => {
+    for (let y = 0; y < height; y++) {
+        for(let x = 0 ; x < width; x++){
+            const actualSquare = actualMatch[y][x]
+            const completeSquare = completeMatch[y][x]
+            
+            if(completeSquare.value == 'b'){
+                if(actualSquare.isActive == true)
+                    return false
+            }
+            else{
+                if(actualSquare.isActive == false)
+                    return false
+            }
         }
     }
+
+    return true
 }
 
 module.exports = {

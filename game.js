@@ -31,7 +31,6 @@ class Connection {
       let actualMatch = createEmptyMatch(width,height, initialX, initialY);
 
 
-
       const info = selectSquare(match,actualMatch, initialX, initialY,height,width)
 
       this.socket.emit('playSquare', info);
@@ -66,7 +65,7 @@ class Connection {
 
     flag = value => {
       const {posX, posY} = value
-      let {actualMatch, height, width} = matchesSolo.get(this.socket.id)
+      let {actualMatch} = matchesSolo.get(this.socket.id)
 
       const square = actualMatch[posY][posX]
 
